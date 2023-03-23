@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            
+            margin: 100px 250px 50px 250px;
+            height:500px
+        }
+        #heading{
+            text-align: left;
+            font-size: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        .theme {
+            margin-left:35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <fieldset>
+        <form>
+            <div id="heading"><legend>View User</legend></div><br>
+            <div><h3 class="theme" id="user-id"></h3></div>
+            <div><h3 class="theme" id="first-name"></h3></div>
+            <div><h3 class="theme" id="last-name"></h3></div>
+           <div> <button style="margin-left: 150px;">Active<input type="checkbox" id="status"></button></div><br><br>
+           <div> <button style="margin-left:600px;" onclick="getaddUsers()">Back</button></div>
+        </form>
+    </fieldset>
+    </div>
+    <script>
+        var userId=localStorage.getItem("UserId");
+        var firstName=localStorage.getItem("FirstName");
+        var lastName= localStorage.getItem("LastName");
+        var status=localStorage.getItem("Status");
+
+        document.getElementById("user-id").innerHTML="UserID :"+userId;
+        document.getElementById("first-name").innerHTML="First Name :"+firstName;
+        document.getElementById("last-name").innerHTML="Last Name :"+lastName;
+        console.log(status.toUpperCase());
+        if(status.toUpperCase()=="ACTIVE"){
+            console.log(status.toUpperCase());
+            document.getElementById("status").checked=true;
+        }else{
+            document.getElementById("status").checked=false;
+        }
+        
+      function getaddUsers(){
+        event.preventDefault();
+        location.href="index.html";
+      }
+    </script>
+</body>
+</html>

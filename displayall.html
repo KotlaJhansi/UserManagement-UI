@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<table>
+
+
+</table>
+<script>
+
+function showUserDetails() {
+            event.preventDefault();
+           // var i=0;
+           //userarr2.keys().forEach(function(key){
+           // console.log(key);
+           console.log(userarr2);
+            userarr2.forEach(function (user) {
+              var value=Object.values(user);
+              console.log(value);
+              
+                userDisplay = userDisplay + "<tr id='" + user.user_uniqueId + "'><td>" + user.userId + "</td><td>" + user.first_Name + "</td><td>"+ user.last_Name + "</td><td>" + user.status + "</td><td><a href='/view.htm'>View</a><a href='/edit.html'>Edit</a><a href='delete.html'>Delete</a></td>";
+                   
+            })
+             document.getElementById("display").innerHTML=" <tr><th>USERID</th><th>First Name</th><th>Last Name</th><th>Status</th><th>Actions</th></tr>"+userDisplay;
+        }   
+</script>
+</body>
+</html>

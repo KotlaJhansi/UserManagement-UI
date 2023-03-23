@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .adduser {
+            text-align: center;
+            margin: 100px 250px 50px 250px;
+
+        }
+
+        legend {
+            text-align: left;
+            font-size: 25px;
+            margin-top: 10px;
+            margin-left: 10px;
+            font-family: 'Times New Roman', Times, serif;
+            text-decoration: 0px solid black;
+
+        }
+
+        .theme {
+            width: 400px;
+            height: 35px;
+
+        }
+
+        .ele_1 {
+            margin-right: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="adduser">
+        <fieldset style="width:700px;height:550px    ">
+            <form action="/index.html" method="get">
+                <div>
+                    <legend>ADD USER</legend><br><br>
+                </div>
+                <div class="ele_1"><input class="theme" type="text" placeholder="USER ID (alias emailid)"
+                        id="email"><br><br><br><br></div>
+                <div class="ele_1"><input class="theme" type="text" id="firstName"
+                        placeholder="First Name"><br><br><br><br></div>
+                <div class="ele_1"><input class="theme" type="text" id="lastName"
+                        placeholder="Last Name"><br><br><br><br></div>
+                <div style="text-align:left;margin-left:100px;"><button for="checkboxstatus"
+                        style="background-color: lightskyblue;height:35px;font-size: 25px;">Activate <input
+                            type="checkbox" style="width:25px;height:25px" id="checkboxstatus"
+                            name="checkbox"></button><br><br><br><br></div>
+                <div style="display: flex;">
+                    <div style="flex:1;text-align: left;margin-left: 50px;"><button
+                            style="width:75px;height:30px">cancel</button></div>
+                    <div style="flex:1;text-align: right;margin-right: 50px;"><button style="width:75px;height:30px"
+                            onClick="addUser()">save</button></div>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+
+    <script>
+        //  var userarr= JSON.parse(localStorage.getItem("usersarr"));
+        //  console.log(userarr) ;
+        
+
+         var userarr=localStorage.getItem("userarr2");
+         var userarr1=JSON.parse(userarr);
+         var userDetailsList;
+        function addUser() {
+            event.preventDefault();
+            console.log(userarr1);
+            if(userarr1==null){
+            var arr=[];
+             userDetailsList=getObject();
+            arr.push(userDetailsList);
+            localStorage.setItem("userarr",JSON.stringify(arr));
+           
+            }
+           else { 
+                 var userDetailsList=getObject();
+                 userarr1.push(userDetailsList);
+                 localStorage.setItem("userarr",JSON.stringify(userarr1));
+           }
+           
+
+           
+           document.getElementById("email").value=" ";
+            document.getElementById("firstName").value=" ";
+            document.getElementById("lastName").value=" ";
+            document.getElementById("checkboxstatus").checked=false;
+           // console.log(JSON.stringify(arr))        
+         
+            
+        //     localStorage.setItem("userDetails.first_Name",firstName);
+        //     localStorage.setItem("userDetails.last_Name",lastName);
+        //     localStorage.setItem("userDetails.status",checkboxstatus);
+        //    //localStorage.clear();
+        //     // localStorage.setItem("first-name",value[i].firstName);
+        //     // localStorage.setItem("last-name",value[i].lastName);
+        //     // localStorage.setItem("status",value[i].checkboxstatus);
+            location.href="index.html"
+            
+           
+
+        }
+        function getObject(){
+            var emailid = getElement("email");
+            var firstName = getElement("firstName");
+            var lastName = getElement("lastName");
+            var checkboxstatus = getStatus();
+            var userDetails = {
+                userId: emailid,
+                first_Name: firstName,
+                last_Name:lastName,
+                status:checkboxstatus,
+                 userUniqueid : getUniqueId()
+            }
+            return userDetails;
+        }
+         var count=100;
+        function getUniqueId() {
+            if(userarr1==null){
+            return ++count;
+        }else {
+            ++count;
+            return count+userarr1.length;
+        }
+    }
+        function getElement(id) {
+            return document.getElementById(id).value;
+        }
+        function getStatus() {
+            var checkboxstatus = document.getElementById("checkboxstatus");
+            if (checkboxstatus.checked) {
+                return "Active";
+            } else {
+                return "Inactive";
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        #searchcorners {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        #searchicon,
+        #searchbar {
+            width: 250px;
+            height: 30px;
+        }
+
+        #searchicon {
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            background-color: white;
+            border-right: none;
+            width: 25px
+        }
+
+        #searchbar {
+            border-left: none;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .status {
+            width: 100px;
+            text-align: center;
+            height: 0px;
+            position: relative;
+            border-right: 10px solid transparent;
+            border-bottom: 40px solid #2963BD;
+            border-left: 10Px solid transparent;
+            box-sizing: content-box;
+            font-size: 15px;
+
+
+            background-color: white;
+            border-top: none;
+            /* margin-bottom: 0px; */
+            /* padding-top: 22px; */
+            /* padding: 10px; */
+        }
+
+        table,
+        tr,
+        th,
+        td {
+            border: none;
+            border-collapse: collapse;
+            text-align: center;
+
+        }
+
+        table,
+        th {
+
+            border: 2px solid black
+        }
+
+        td {
+            border-right: 2px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="" method="" id="form">
+        <header>
+
+            <div style="margin:0px;">
+                <div style="display:flex">
+                    <div style="flex:2;display: flex;">
+                        <div style="flex:1"><button class="status" id="displayall"
+                                onclick="showUserDetails()">ALL</button></div>
+                        <div style="flex:1"><button class="status" id="active" onclick="getActive()">Active</button>
+                        </div>
+                        <div style="flex:1"><button class="status" id="inactive"
+                                onclick="getInactive()">Inactive</button></div>
+                    </div>
+                    <div style="flex:1;text-align: right;"><button style="height:35px;" onclick="getadduser()">ADD
+                            USER</button></div>
+                    <div style="flex:2;text-align:right"><button id="searchicon">
+                            <i class="fa fa-search"></i>
+                        </button><input type="search" id="searchbar" placeholder="Search By Name"   onkeyup="searchName()">
+                    </div>
+                </div>
+                <hr>
+            </div>
+
+        </header>
+
+
+        <div>
+            <table style="width:100%" id="display">
+
+
+
+
+
+
+            </table>
+
+        </div>
+    </form>
+
+    <footer style="text-align: right;margin-top:600px;margin-right: 10px;">
+
+        <a href="">Previous</a><b>|</b>
+        <a href="">Next</a>
+
+    </footer>
+    <script>
+
+        var count = 100;
+        var usersarr = [];
+
+
+        var userDisplay2 = "";
+        var userarr1 = localStorage.getItem("userarr");
+        var userarr2 = JSON.parse(userarr1);
+        localStorage.setItem("userarr2", JSON.stringify(userarr2));
+        console.log(userarr2);
+        //console.log(Object.keys(userarr2[0]));
+
+        function showUserDetails() {
+            event.preventDefault();
+            var userDisplay = "";
+            // var i=0;
+            //userarr2.keys().forEach(function(key){
+            // console.log(key);
+            console.log(userarr2);
+            userarr2.forEach(function (user) {
+                var value = Object.values(user);
+                console.log(user);
+
+                userDisplay = userDisplay + "<tr id='" + user.userUniqueid + "'><td>" + user.userId + "</td><td>" + user.first_Name + "</td><td>" + user.last_Name + "</td><td>" + user.status + "</td><td><button style='text-decoration:none' onclick=viewDetails(" + user.userUniqueid + ")>View</button><button onclick=editDetails(" + user.userUniqueid + ")>Edit</button><button onclick=deleteUser(" + user.userUniqueid + ")>Delete</button></td>";
+
+            })
+            document.getElementById("display").innerHTML = " <tr><th>USERID</th><th>First Name</th><th>Last Name</th><th>Status</th><th>Actions</th></tr>" + userDisplay;
+        }
+
+        function setAttributeValue(tagname) {
+            document.getElementById("form").setAttribute("action", '/AddUser.html')
+            document.getElementById("form").setAttribute("method", 'get')
+        }
+        function getadduser() {
+            event.preventDefault();
+            console.log(usersarr);
+
+            setAttributeValue();
+
+            location.href = "ADDUser.html";
+        }
+        function getActive() {
+            event.preventDefault();
+            var userDisplay2 = "";
+            document.getElementById("displayall").style.borderBottomColor = "white";
+            console.log(userarr2);
+            userarr2.forEach(function (user) {
+                console.log(user.status.toUpperCase());
+                if (user.status.toUpperCase() === "ACTIVE") {
+                    console.log(user.status);
+                    userDisplay2 = userDisplay2 + "<tr id='" + user.user_uniqueId + "'><td>" + user.userId + "</td><td>" + user.first_Name + "</td><td>" + user.last_Name + "</td><td>" + user.status + "</td><td><button style='text-decoration:none' onclick=viewDetails("+user.userUniqueid+")>View</button><button onclick=editDetails("+user.userUniqueid+") > Edit</button > <button onclick=deleteUser("+user.userUniqueid+") > Delete</button ></td > ";
+
+                }
+            })
+            document.getElementById("display").innerHTML = " <tr><th>USERID</th><th>First Name</th><th>Last Name</th><th>Status</th><th>Actions</th></tr>" + userDisplay2;
+
+        }
+
+        function getInactive() {
+            event.preventDefault();
+
+            var userDisplay1 = "";
+            userarr2.forEach(function (user) {
+                if (user.status.toUpperCase() == 'INACTIVE') {
+                    userDisplay1 = userDisplay1 + "<tr id='" + user.user_uniqueId + "'><td>" + user.userId + "</td><td>" + user.first_Name + "</td><td>" + user.last_Name + "</td><td>" + user.status + "</td><td><button style='text-decoration:none' onclick=viewDetails("+user.userUniqueid+")>View</button><button onclick=editDetails("+user.userUniqueid+") > Edit</button > <button onclick=deleteUser("+user.userUniqueid+") > Delete</button ></td > ";
+
+                }
+            })
+            document.getElementById("display").innerHTML = " <tr><th>USERID</th><th>First Name</th><th>Last Name</th><th>Status</th><th>Actions</th></tr>" + userDisplay1;
+
+        }
+
+        function viewDetails(uid) {
+            userarr2.forEach(function (user) {
+                if (user.userUniqueid == uid) {
+                    localStorage.setItem("UserId", user.userId);
+                    localStorage.setItem("FirstName", user.first_Name);
+                    localStorage.setItem("LastName", user.last_Name);
+                    localStorage.setItem("Status", user.status);
+
+                }
+
+            })
+            document.getElementById("form").action = "/view.html";
+            document.getElementById("form").method = "get";
+            location.href = "view.html";
+        }
+        function editDetails(uid) {
+            event.preventDefault();
+            userarr2.forEach(function (user) {
+                if(user.userUniqueid==uid){
+                localStorage.setItem("UserId", user.userId);
+                localStorage.setItem("FirstName", user.first_Name);
+                localStorage.setItem("LastName", user.last_Name);
+                localStorage.setItem("Status", user.status);
+                localStorage.setItem("userUniqueid",uid);
+                }
+            })
+        
+            document.getElementById("form").action = "/edit.html";
+            document.getElementById("form").method = "get";
+            location.href = "edit.html";
+        }
+
+        function deleteUser(uid) {
+            event.preventDefault();
+            var i = 0;
+            console.log(userarr2);
+            userarr2.forEach(function (user) {
+                console.log(user);
+                if (user.userUniqueid == uid) {
+                  userarr2.splice(i,1);
+                  console.log(i);
+
+                }
+                console.log(userarr2+i);
+                i++;
+            })
+            showUserDetails();   
+        }
+        function searchName(){
+            event.preventDefault();
+            var userDisplay3="";
+            var namearr=[];
+            var searchName=document.getElementById("searchbar").value;
+            
+            console.log(searchName);
+            userarr2.forEach(function(user){
+               name=user.first_Name;
+               fname=name.toUpperCase();
+               if(fname.includes(searchName.toUpperCase())){
+                userDisplay3 = userDisplay3 + "<tr id='" + user.userUniqueid + "'><td>" + user.userId + "</td><td>" + user.first_Name + "</td><td>" + user.last_Name + "</td><td>" + user.status + "</td><td><button style='text-decoration:none' onclick=viewDetails(" + user.userUniqueid + ")>View</button><button onclick=editDetails(" + user.userUniqueid + ")>Edit</button><button onclick=deleteUser(" + user.userUniqueid + ")>Delete</button></td>";
+
+               }
+              // userDislay="";
+            })
+            document.getElementById("display").innerHTML = " <tr><th>USERID</th><th>First Name</th><th>Last Name</th><th>Status</th><th>Actions</th></tr>" + userDisplay3;
+
+            console.log(namearr);
+
+        }
+    </script>
+
+</body>
+
+</html>

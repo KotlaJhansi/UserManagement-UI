@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            
+            margin: 100px 250px 50px 250px;
+            height:500px
+        }
+        #heading{
+            text-align: left;
+            font-size: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        .theme {
+            margin-left:35px;
+        }
+       
+
+        .theme {
+            width: 400px;
+            height: 35px;
+
+        }
+
+        .ele_1 {
+            margin-right: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <fieldset>
+        <form id="form">
+            <div id="heading"><legend>Edit User</legend></div><br>
+            <div><h3 class="theme" id="user-id"></h3></div>
+            <div class="ele_1"><input class="theme" type="text" id="firstName"
+                placeholder="First Name"><br><br><br><br></div>
+        <div class="ele_1"><input class="theme" type="text" id="lastName"
+                placeholder="Last Name"><br><br><br><br></div>
+        <div style="text-align:left;margin-left:100px;"><button for="checkboxstatus"
+                style="background-color: lightskyblue;height:35px;font-size: 25px;">Activate <input
+                    type="checkbox" style="width:25px;height:25px" id="checkboxstatus"
+                    name="checkbox"></button><br><br><br><br></div>
+        <div style="display: flex;">
+            <div style="flex:1;text-align: left;margin-left: 50px;"><button
+                    style="width:75px;height:30px" onclick="getCancel()">cancel</button></div>
+            <div style="flex:1;text-align: right;margin-right: 50px;"><button style="width:75px;height:30px"
+                    onClick="addUser()">save</button></div>
+        </form>
+    </fieldset>
+    </div>
+    <script>
+        var userId=localStorage.getItem("UserId");
+       var usersarr=JSON.parse(localStorage.getItem("userarr2"));
+       console.log(usersarr);
+       var first_Name=localStorage.getItem("FirstName");
+       var last_Name=localStorage.getItem("LastName");
+       var status=localStorage.getItem("Status");
+       var uid=localStorage.getItem("userUniqueid");
+
+        document.getElementById("user-id").innerHTML="UserID :"+userId;
+        
+      function addUser(){
+        event.preventDefault();
+        var userstatus;
+        var firstName=document.getElementById("firstName").value;
+        var lastName=document.getElementById("lastName").value;
+        var checkboxstatus=document.getElementById("checkboxstatus").checked;
+        if(checkboxstatus){
+          userstatus="Active";
+        }else{
+            userstatus="Inactive";
+        }
+        
+        usersarr.forEach(function(user){
+            if(user.userUniqueid==uid){
+                console.log(uid);
+                if(user.first_Name!=firstName){
+                    console.log(uid);
+                   user.first_Name=firstName;
+                   document.getElementById("firstName").value=first_Name;
+                }
+                if(user.last_Name!=lastName){
+                    console.log(uid);
+                    user.last_Name=lastName;
+
+                }
+                if(user.status!=userstatus){
+                    console.log(uid);
+                    user.status=userstatus;
+                }
+            }
+            console.log(user);
+        });
+
+       localStorage.setItem("userarr",JSON.stringify(usersarr));
+       document.getElementById("form").action = "/inner.html";
+            document.getElementById("form").method = "get";
+        location.href="index.html";
+      }
+
+      function getCancel(){
+        event.preventDefault();
+        document.getElementById("firstName").value="";
+        document.getElementById("lastName").value="";
+
+        location.href="index.html";
+      }
+    </script>
+</body>
+</html>
