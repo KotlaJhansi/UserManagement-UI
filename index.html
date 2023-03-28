@@ -76,13 +76,13 @@
 
 <body>
     <form action="" method="" id="form">
-        <header>
-
+      
+            <header>
             <div style="margin:0px;">
                 <div style="display:flex">
                     <div style="flex:2;display: flex;">
                         <div style="flex:1"><button class="status" id="displayall"
-                                onclick="showUserDetails()">ALL</button></div>
+                                onclick="showAllDetails()">ALL</button></div>
                         <div style="flex:1"><button class="status" id="active" onclick="getActive()">Active</button>
                         </div>
                         <div style="flex:1"><button class="status" id="inactive"
@@ -96,23 +96,26 @@
                     </div>
                 </div>
                 <hr>
-            </div>
-
-        </header>
-
-
-        <div>
-            <table style="width:100%" id="display">
-
-
-
-
-
-
-            </table>
+            
+       
+              <div>
+                <table style="width:100%" id="display">
+                    <thead id="thead">
+        
+                    </thead>
+                    <tbody id="tbody">
+        
+                    </tbody>
+        
+        
+        
+                    </table>
+                </div>
+            </form>
+           
 
         </div>
-    </form>
+   
 
     <footer style="text-align: right;margin-top:600px;margin-right: 10px;">
 
@@ -121,145 +124,202 @@
 
     </footer>
     <script>
-
-        var count = 100;
-        var usersarr = [];
-
-
-        var userDisplay2 = "";
-        var userarr1 = localStorage.getItem("userarr");
-        var userarr2 = JSON.parse(userarr1);
-        localStorage.setItem("userarr2", JSON.stringify(userarr2));
-        console.log(userarr2);
-        //console.log(Object.keys(userarr2[0]));
-
-        function showUserDetails() {
-            event.preventDefault();
-            var userDisplay = "";
-            // var i=0;
-            //userarr2.keys().forEach(function(key){
-            // console.log(key);
-            console.log(userarr2);
-            userarr2.forEach(function (user) {
-                var value = Object.values(user);
-                console.log(user);
-
-                userDisplay = userDisplay + "<tr id='" + user.userUniqueid + "'><td>" + user.userId + "</td><td>" + user.first_Name + "</td><td>" + user.last_Name + "</td><td>" + user.status + "</td><td><button style='text-decoration:none' onclick=viewDetails(" + user.userUniqueid + ")>View</button><button onclick=editDetails(" + user.userUniqueid + ")>Edit</button><button onclick=deleteUser(" + user.userUniqueid + ")>Delete</button></td>";
-
-            })
-            document.getElementById("display").innerHTML = " <tr><th>USERID</th><th>First Name</th><th>Last Name</th><th>Status</th><th>Actions</th></tr>" + userDisplay;
+        var userarray1;
+        var uniqueidarray;
+       // var usersarr = [];
+      
+        userarray1=JSON.parse(localStorage.getItem("userarray"));
+     uniqueidarray=JSON.parse(localStorage.getItem("uniquearray"));
+     localStorage.setItem("uniquearray1",JSON.stringify(uniqueidarray));
+        console.log(uniqueidarray);
+         localStorage.setItem("userarray2",JSON.stringify(userarray1));
+        var tbodyArray;  
+        var arrayuser=[];   
+        if (userarray1!=null){
+            showUserDetails();
+            getHeaderDetails();
         }
-
-        function setAttributeValue(tagname) {
-            document.getElementById("form").setAttribute("action", '/AddUser.html')
-            document.getElementById("form").setAttribute("method", 'get')
-        }
-        function getadduser() {
-            event.preventDefault();
-            console.log(usersarr);
-
-            setAttributeValue();
-
-            location.href = "ADDUser.html";
-        }
-        function getActive() {
-            event.preventDefault();
-            var userDisplay2 = "";
-            document.getElementById("displayall").style.borderBottomColor = "white";
-            console.log(userarr2);
-            userarr2.forEach(function (user) {
-                console.log(user.status.toUpperCase());
-                if (user.status.toUpperCase() === "ACTIVE") {
-                    console.log(user.status);
-                    userDisplay2 = userDisplay2 + "<tr id='" + user.user_uniqueId + "'><td>" + user.userId + "</td><td>" + user.first_Name + "</td><td>" + user.last_Name + "</td><td>" + user.status + "</td><td><button style='text-decoration:none' onclick=viewDetails("+user.userUniqueid+")>View</button><button onclick=editDetails("+user.userUniqueid+") > Edit</button > <button onclick=deleteUser("+user.userUniqueid+") > Delete</button ></td > ";
-
-                }
-            })
-            document.getElementById("display").innerHTML = " <tr><th>USERID</th><th>First Name</th><th>Last Name</th><th>Status</th><th>Actions</th></tr>" + userDisplay2;
-
-        }
-
-        function getInactive() {
-            event.preventDefault();
-
-            var userDisplay1 = "";
-            userarr2.forEach(function (user) {
-                if (user.status.toUpperCase() == 'INACTIVE') {
-                    userDisplay1 = userDisplay1 + "<tr id='" + user.user_uniqueId + "'><td>" + user.userId + "</td><td>" + user.first_Name + "</td><td>" + user.last_Name + "</td><td>" + user.status + "</td><td><button style='text-decoration:none' onclick=viewDetails("+user.userUniqueid+")>View</button><button onclick=editDetails("+user.userUniqueid+") > Edit</button > <button onclick=deleteUser("+user.userUniqueid+") > Delete</button ></td > ";
-
-                }
-            })
-            document.getElementById("display").innerHTML = " <tr><th>USERID</th><th>First Name</th><th>Last Name</th><th>Status</th><th>Actions</th></tr>" + userDisplay1;
-
-        }
-
-        function viewDetails(uid) {
-            userarr2.forEach(function (user) {
-                if (user.userUniqueid == uid) {
-                    localStorage.setItem("UserId", user.userId);
-                    localStorage.setItem("FirstName", user.first_Name);
-                    localStorage.setItem("LastName", user.last_Name);
-                    localStorage.setItem("Status", user.status);
-
-                }
-
-            })
-            document.getElementById("form").action = "/view.html";
-            document.getElementById("form").method = "get";
-            location.href = "view.html";
-        }
-        function editDetails(uid) {
-            event.preventDefault();
-            userarr2.forEach(function (user) {
-                if(user.userUniqueid==uid){
-                localStorage.setItem("UserId", user.userId);
-                localStorage.setItem("FirstName", user.first_Name);
-                localStorage.setItem("LastName", user.last_Name);
-                localStorage.setItem("Status", user.status);
-                localStorage.setItem("userUniqueid",uid);
-                }
-            })
         
-            document.getElementById("form").action = "/edit.html";
-            document.getElementById("form").method = "get";
-            location.href = "edit.html";
-        }
+        //var userDisplay="";
+       
+      
+        function setAttributes(){
+            document.getElementById("form").action="/AddUser.html";
+            document.getElementById("form").method="get";
 
-        function deleteUser(uid) {
+        }
+        function getadduser(){
             event.preventDefault();
-            var i = 0;
-            console.log(userarr2);
-            userarr2.forEach(function (user) {
-                console.log(user);
-                if (user.userUniqueid == uid) {
-                  userarr2.splice(i,1);
-                  console.log(i);
-
-                }
-                console.log(userarr2+i);
-                i++;
-            })
-            showUserDetails();   
+            setAttributes();
+            location.href="/AddUser.html";
         }
-        function searchName(){
+
+        function getHeaderDetails(){
+            console.log(userarray1[0]);
+            var theadArray;
+         var keys= Object.keys(userarray1[0]);
+         theadArray= keys.map(function(key){
+            if(key!="uniqueId"){
+             return "<th>"+key+"</th>";
+            }
+         });
+         theadArray=theadArray.toString().replaceAll(",","");
+         document.getElementById("thead").innerHTML=theadArray+"<th>Action</th>";
+        }
+        function showUserDetails(){
+            
+            var userDisplay1=" ";
+            var userDisplayArray;
+                        
+            console.log(userarray1);
+            //if(userarray1!=null){
+            userarray1.forEach(function(user){
+               // uniqueId=getUniqueId(count);                
+                //count++;
+                //console.log(count);
+                userDisplayArray = userDisplay(user);
+                userDisplay1=userDisplay1+"<tr>"+userDisplayArray+getActionButtons(user.uniqueId)+"</tr>";
+                //user.uniqueId=uniqueId;
+                console.log(user);
+                //arrayuser.push(user);
+                })
+                console.log(arrayuser);
+            document.getElementById("tbody").innerHTML= userDisplay1;
+            localStorage.setItem("arrayuser",JSON.stringify(arrayuser));
+            }
+
+            function showAllDetails(){
+            event.preventDefault();
+            document.getElementById("displayall").style.borderBottomColor="white";
+           document.getElementById("active").style.borderBottomColor="2963BD";
+            document.getElementById("inactive").style.borderBottomColor="2963BD";
+
+            showUserDetails();
+            }
+       
+
+    function getActionButtons(unique){
+        return "<td><button style='text-decoration:none' onclick=viewDetails("+unique+")>View</button><button onclick=editDetails("+unique+")>Edit</button><button onclick=deleteUser("+unique+")>Delete</button></td>";
+    }    
+   
+
+        function userDisplay(eachuser){
+            
+            var values=Object.values(eachuser);
+            tbodyArray=values.map(function(value){
+                var univalue=uniqueidarray.includes(value);
+                console.log(univalue)
+                if(!univalue){
+                    return "<td>"+value+"</td>"
+                }
+        })
+        tbodyArray=tbodyArray.toString().replaceAll(",","");
+        console.log(tbodyArray);
+         return tbodyArray;
+         }
+    function getInactive(){
+        event.preventDefault();
+        document.getElementById("displayall").style.borderBottomColor="2963BD";
+        document.getElementById("active").style.borderBottomColor="2963BD";
+        document.getElementById("inactive").style.borderBottomColor="white";
+            
+        var count1=100;
+        var inactiveDisplay="";
+        userarray1.forEach(function(user){
+           if(user.status.toUpperCase()=="INACTIVE"){
+            
+           var inactiveDisplayArray =userDisplay(user);
+           console.log(user.uniqueId);
+           inactiveDisplay=inactiveDisplay+"<tr>"+inactiveDisplayArray+getActionButtons(user.uniqueId)+"</tr>";
+           }       
+         })
+         document.getElementById("tbody").innerHTML= inactiveDisplay;
+    }
+    function getActive(){
+        event.preventDefault();
+        document.getElementById("inactive").style.borderBottomColor="2963BD";
+        document.getElementById("displayall").style.borderBottomColor="2963BD";
+        document.getElementById("active").style.borderBottomColor="white";
+        var activeDisplay="";
+        
+        userarray1.forEach(function(user){
+           if(user.status.toUpperCase()=="ACTIVE"){
+          
+           var activeDisplayArray =userDisplay(user);
+          // console.log(inactiveDisplayArray);
+           activeDisplay=activeDisplay+"<tr>"+activeDisplayArray+getActionButtons(user.uniqueId)+"</tr>";
+           }      
+          })
+          document.getElementById("tbody").innerHTML= activeDisplay;
+    }
+
+    function viewDetails(uniqueid){
+        event.preventDefault();
+          console.log(uniqueid);   
+        userarray1.forEach(function(user){
+            if(user.uniqueId==uniqueid){
+                localStorage.setItem("UserId",user.userId);
+                localStorage.setItem("FirstName",user.firstName);
+                localStorage.setItem("LastName",user.lastName);
+                localStorage.setItem("Status",user.status);
+            }
+        })
+        document.getElementById("form").action="/view.html";
+        document.getElementById("form").method="get";
+        location.href="view.html";
+    }
+      
+    function editDetails(uniqueid){
+        event.preventDefault();
+          console.log(uniqueid);   
+        userarray1.forEach(function(user){
+            console.log(user.uniqueId);
+            if(user.uniqueId==uniqueid){
+                localStorage.setItem("UserId",user.userId);
+                localStorage.setItem("FirstName",user.firstName);
+                localStorage.setItem("LastName",user.lastName);
+                localStorage.setItem("Status",user.status);
+
+                localStorage.setItem("UniqueId",uniqueid);
+            }
+        })
+        document.getElementById("form").action="/edit.html";
+        document.getElementById("form").method="get";
+        location.href="edit.html";
+    
+    }
+
+    function deleteUser(uniqueid){
+        console.log(uniqueid);
+        var i=0;
+        userarray1.forEach(function(user){
+            if(user.uniqueId==uniqueid){
+                userarray1.splice(i,1);
+            }
+            i++;
+        })
+        showUserDetails();
+    }
+
+    function searchName(){
             event.preventDefault();
             var userDisplay3="";
-            var namearr=[];
+          //  var namearr=[];
             var searchName=document.getElementById("searchbar").value;
             
             console.log(searchName);
-            userarr2.forEach(function(user){
-               name=user.first_Name;
-               fname=name.toUpperCase();
+            userarray1.forEach(function(user){
+               name=user.firstName;
+             fname=name.toUpperCase();
                if(fname.includes(searchName.toUpperCase())){
-                userDisplay3 = userDisplay3 + "<tr id='" + user.userUniqueid + "'><td>" + user.userId + "</td><td>" + user.first_Name + "</td><td>" + user.last_Name + "</td><td>" + user.status + "</td><td><button style='text-decoration:none' onclick=viewDetails(" + user.userUniqueid + ")>View</button><button onclick=editDetails(" + user.userUniqueid + ")>Edit</button><button onclick=deleteUser(" + user.userUniqueid + ")>Delete</button></td>";
+                serachArray=userDisplay(user);
+                userDisplay3 = userDisplay3 + "<tr>"+serachArray+getActionButtons(user.uniqueId)+"</tr>";
 
                }
               // userDislay="";
             })
-            document.getElementById("display").innerHTML = " <tr><th>USERID</th><th>First Name</th><th>Last Name</th><th>Status</th><th>Actions</th></tr>" + userDisplay3;
-
-            console.log(namearr);
+            document.getElementById("display").innerHTML =userDisplay3
+           // console.log(namearr);
 
         }
     </script>

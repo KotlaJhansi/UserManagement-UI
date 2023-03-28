@@ -58,13 +58,15 @@
     </div>
     <script>
         var userId=localStorage.getItem("UserId");
-       var usersarr=JSON.parse(localStorage.getItem("userarr2"));
+       var usersarr=JSON.parse(localStorage.getItem("userarray2"));
        console.log(usersarr);
+       console.log(userId);
        var first_Name=localStorage.getItem("FirstName");
+       console.log(first_Name);
        var last_Name=localStorage.getItem("LastName");
        var status=localStorage.getItem("Status");
-       var uid=localStorage.getItem("userUniqueid");
-
+       var uid=localStorage.getItem("UniqueId");
+       console.log(uid)
         document.getElementById("user-id").innerHTML="UserID :"+userId;
         
       function addUser(){
@@ -80,30 +82,36 @@
         }
         
         usersarr.forEach(function(user){
-            if(user.userUniqueid==uid){
-                console.log(uid);
-                if(user.first_Name!=firstName){
-                    console.log(uid);
-                   user.first_Name=firstName;
-                   document.getElementById("firstName").value=first_Name;
+            console.log(user.uniqueId);
+            console.log(uid);
+            if(user.uniqueId==uid){
+                console.log(user.firstName);
+                if(user.firstName.toUpperCase()!=firstName.toUpperCase()){
+                    console.log(user.firstName);
+                    console.log(firstName);
+                   user.firstName=firstName;
+                  // document.getElementById("firstName").value=firstName;
                 }
-                if(user.last_Name!=lastName){
-                    console.log(uid);
-                    user.last_Name=lastName;
-
+                if(user.lastName.toUpperCase()!=lastName.toUpperCase()){
+                    console.log(user.lastName);
+                    console.log(lastName);
+                    user.lastName=lastName;
+                   // document.getElementById("firstName").value=firstName;
                 }
-                if(user.status!=userstatus){
+                if(user.status.toUpperCase()!=userstatus.toUpperCase()){
                     console.log(uid);
+                    console.log(user.status);
+                    console.log(userstatus);
                     user.status=userstatus;
                 }
             }
             console.log(user);
         });
 
-       localStorage.setItem("userarr",JSON.stringify(usersarr));
+       localStorage.setItem("userarray",JSON.stringify(usersarr));
        document.getElementById("form").action = "/inner.html";
             document.getElementById("form").method = "get";
-        location.href="index.html";
+      location.href="index.html";
       }
 
       function getCancel(){
@@ -111,7 +119,7 @@
         document.getElementById("firstName").value="";
         document.getElementById("lastName").value="";
 
-        location.href="index.html";
+       // location.href="index.html";
       }
     </script>
 </body>

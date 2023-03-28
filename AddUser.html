@@ -38,7 +38,7 @@
 <body>
     <div class="adduser">
         <fieldset style="width:700px;height:550px    ">
-            <form action="/index.html" method="get">
+            <form action="/index.html" method="GET" id="form">
                 <div>
                     <legend>ADD USER</legend><br><br>
                 </div>
@@ -62,86 +62,86 @@
         </fieldset>
     </div>
 
-    <script>
-        //  var userarr= JSON.parse(localStorage.getItem("usersarr"));
-        //  console.log(userarr) ;
-        
 
-         var userarr=localStorage.getItem("userarr2");
-         var userarr1=JSON.parse(userarr);
-         var userDetailsList;
-        function addUser() {
-            event.preventDefault();
-            console.log(userarr1);
-            if(userarr1==null){
-            var arr=[];
-             userDetailsList=getObject();
-            arr.push(userDetailsList);
-            localStorage.setItem("userarr",JSON.stringify(arr));
-           
-            }
-           else { 
-                 var userDetailsList=getObject();
-                 userarr1.push(userDetailsList);
-                 localStorage.setItem("userarr",JSON.stringify(userarr1));
-           }
-           
-
-           
-           document.getElementById("email").value=" ";
-            document.getElementById("firstName").value=" ";
-            document.getElementById("lastName").value=" ";
-            document.getElementById("checkboxstatus").checked=false;
-           // console.log(JSON.stringify(arr))        
-         
-            
-        //     localStorage.setItem("userDetails.first_Name",firstName);
-        //     localStorage.setItem("userDetails.last_Name",lastName);
-        //     localStorage.setItem("userDetails.status",checkboxstatus);
-        //    //localStorage.clear();
-        //     // localStorage.setItem("first-name",value[i].firstName);
-        //     // localStorage.setItem("last-name",value[i].lastName);
-        //     // localStorage.setItem("status",value[i].checkboxstatus);
-            location.href="index.html"
-            
-           
-
-        }
-        function getObject(){
-            var emailid = getElement("email");
-            var firstName = getElement("firstName");
-            var lastName = getElement("lastName");
-            var checkboxstatus = getStatus();
-            var userDetails = {
-                userId: emailid,
-                first_Name: firstName,
-                last_Name:lastName,
-                status:checkboxstatus,
-                 userUniqueid : getUniqueId()
-            }
-            return userDetails;
-        }
-         var count=100;
-        function getUniqueId() {
-            if(userarr1==null){
-            return ++count;
-        }else {
-            ++count;
-            return count+userarr1.length;
+<script>
+    var usersarr=[];
+     var usersarr=JSON.parse(localStorage.getItem("userarray2"));
+     var uniquearray1=JSON.parse(localStorage.getItem("uniquearray1"));
+    // var usersarr2=JSON.parse(localStorage.getItem("userarray2"));
+    var userarr1=usersarr;
+    var userDetailsList;
+    var countarray=[];
+    var count=101;
+  
+    function getElement(id){
+        return document.getElementById(id).value;
+    }
+    function getStatus(id){
+        var checkstatus=document.getElementById(id);
+                console.log(checkstatus);
+        if(checkstatus.checked){
+            return status="Active";
+        }else{
+            return status="Inactive";
         }
     }
-        function getElement(id) {
-            return document.getElementById(id).value;
+
+    function getUserObject(){
+        var userId=getElement("email");
+    var firstName=getElement("firstName");
+    var lastName=getElement("lastName");
+    var status=getStatus("checkboxstatus");
+       var userDetails={
+        userId:userId,
+        firstName:firstName,
+        lastName:lastName,
+        status:status,
+        uniqueId:getUniqueId()
+    }
+    return userDetails;
+}
+
+function getUniqueId(){
+   
+    if(userarr1!=null){
+       
+            var count1= count+userarr1.length;
+            uniquearray1.push(count1);
+            console.log(uniquearray1);
+    }else{
+        countarray.push(count);
+        return count;
+    }
+            return count1; 
         }
-        function getStatus() {
-            var checkboxstatus = document.getElementById("checkboxstatus");
-            if (checkboxstatus.checked) {
-                return "Active";
-            } else {
-                return "Inactive";
-            }
+    function addUser(){
+        event.preventDefault();
+        if(usersarr==null){
+        var arr=[];
+         userDetailsList=getUserObject();
+        console.log(userDetailsList);
+        arr.push(userDetailsList);
+        console.log(arr);
+        localStorage.setItem("userarray",JSON.stringify(arr));
+        localStorage.setItem("uniquearray",JSON.stringify(countarray));
+        }else{
+            userDetailsList=getUserObject();
+            usersarr.push(userDetailsList);
+            localStorage.setItem("userarray",JSON.stringify(usersarr));
+            localStorage.setItem("uniquearray",JSON.stringify(uniquearray1));
+           console.log(usersarr);       
         }
-    </script>
+        document.getElementById('email').value="";
+        document.getElementById('firstName').value="";
+        document.getElementById('lastName').value="";
+        document.getElementById('checkboxstatus').checked=false;
+         document.getElementById("form").action="/index.html";
+         document.getElementById("form").method="GET";
+       location.href="index.html";
+         }
+          
+
+</script>
 </body>
 
 </html>
